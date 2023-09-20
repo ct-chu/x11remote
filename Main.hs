@@ -108,7 +108,7 @@ getXModmap = parseKeymap <$> liftIO (readProcess "xmodmap" ["-pke"] "")
           where (l,r) = break (=="=") s
 
 embeddedStatic :: [(FilePath, BS.ByteString)]
-embeddedStatic = $(embedDir "static")
+embeddedStatic = $(embedDir "/home/ast/Documents/x11remote/static")
 serveStatic str
  | "html" `isSuffixOf` str = html txt
  | otherwise = text txt
