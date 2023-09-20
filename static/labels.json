@@ -1,6 +1,7 @@
 {
   "NoSymbol"   : " "
- ,"Return"     : "⏎"
+  ,"r"     : "🦀"
+  ,"Return"     : "⏎"
  ,"BackSpace"  : "⌫"
  ,"Delete"     : "⌦"
  ,"Shift_L"    : "⇧"
