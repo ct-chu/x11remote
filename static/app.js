@@ -64,7 +64,7 @@ var layout = getjson('layout.json');
 var c = document.getElementById('mycanvas');
 var st = new createjs.Stage('mycanvas');
 
-var mode = 0; //current mode (0=mouse, 1=keyboard)
+var mode = 1; //current mode (0=mouse, 1=keyboard)
 
 var currkeys = null; //references to current key objects of keyboard
 //state of modifiers affecting key labels
