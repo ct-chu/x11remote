@@ -182,7 +182,7 @@ function newKey(keycode,x,y,w,h) {
     if (isdef(labels[keysym]))
       label = labels[keysym];
 
-    var fonth = Math.min(Math.abs(h/6*5), w);
+    var fonth = Math.min(Math.abs(h/6*3), w);
     var text = new createjs.Text(label,fonth+"px Arial","black");
     //center text
     text.x = w/2-text.getBounds().width/2;
