@@ -84,21 +84,31 @@ function isdef(x){ return (typeof x != 'undefined') }
 
 function xdo(url) { reqqueue.push(url); }
 
-function newRect(x,y,w,h,borderclr,fillclr) {
+function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
+  var button = new createjs.Container();
   var r = new createjs.Shape();
+  var text = new createjs.Text();
   r.setBounds(x,y,w,h);
   r.x = x;
   r.y = y;
   r.graphics.beginStroke(borderclr).beginFill(fillclr)
     .drawRect(0,0,w,h);
-  return r;
+  text.set({
+    text: buttonText,
+    textAlign: "center",
+    textBaseline: "middle",
+    x: buttonWidth / 2,
+    y: buttonHeight / 2
+  })
+  button.addChild(r, text);
+  return button;
 }
 
 function generateFooter(x,y,w,h) {
   var fscrw = c.height-y;
 
-  var fscr = newRect(x,y,fscrw,h,"black","yellow");
-  var togk = newRect(x+fscrw,y,w-fscrw,h,"black","green");
+  var fscr = newRect(x,y,fscrw,h,"black","yellow","");
+  var togk = newRect(x+fscrw,y,w-fscrw,h,"black","green","toggle");
 
   fscr.touchstart = fullscreen;
   togk.touchstart = toggleMode;
@@ -109,10 +119,10 @@ function generateFooter(x,y,w,h) {
 
 function generateMouse(x,y,w,h) {
   var th = h/4*3;
-  var tpad = newRect(x,y,w,th,"black","#404040");
-  var lbtn = newRect(x,th,w/5*2,h-th,"black","#b0b0b0");
-  var mbtn = newRect(w/5*2,th,w/5,h-th,"black","#808080");
-  var rbtn = newRect(w/5*3,th,w/5*2,h-th,"black","#b0b0b0");
+  var tpad = newRect(x,y,w,th,"black","#404040","touchpad");
+  var lbtn = newRect(x,th,w/5*2,h-th,"black","#b0b0b0","Select");
+  var mbtn = newRect(w/5*2,th,w/5,h-th,"black","#808080","");
+  var rbtn = newRect(w/5*3,th,w/5*2,h-th,"black","#b0b0b0","DEselect");
 
   tpad.touchstart = function(evt){
     ox = sx = evt.clientX;
@@ -157,7 +167,7 @@ function newKey(keycode,x,y,w,h) {
   container.x = x;
   container.y = y;
 
-  var rect = newRect(0,0,w,h,"black","gray");
+  var rect = newRect(0,0,w,h,"black","gray","");
   container.addChild(rect);
 
   //keysym which will be sent
