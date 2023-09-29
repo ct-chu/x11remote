@@ -64,7 +64,7 @@ var layout = getjson('layout.json');
 var c = document.getElementById('mycanvas');
 var st = new createjs.Stage('mycanvas');
 
-var mode = 1; //current mode (0=mouse, 1=keyboard)
+var mode = 0; //current mode (0=mouse, 1=keyboard)
 
 var currkeys = null; //references to current key objects of keyboard
 //state of modifiers affecting key labels
@@ -161,7 +161,7 @@ function generateMouse(x,y,w,h) {
   st.addChild(mbtn);
   st.addChild(rbtn);
 
-  generateKeyboard(mouseX, 0, x-mouseX, h);
+  generateKeyboard(mouseX, 0, w-mouseX, h);
 }
 
 function newKey(keycode,x,y,w,h) {
@@ -170,7 +170,7 @@ function newKey(keycode,x,y,w,h) {
   container.x = x;
   container.y = y;
 
-  var rect = newRect(0,0,w,h,"black","gray","");
+  var rect = newRect(0,0,w,h,"#770000","#000000","");
   container.addChild(rect);
 
   //keysym which will be sent
@@ -196,7 +196,7 @@ function newKey(keycode,x,y,w,h) {
       label = labels[keysym];
 
     var fonth = Math.min(Math.abs(h/6*3), w);
-    var text = new createjs.Text(label,fonth+"px Arial","black");
+    var text = new createjs.Text(label,fonth+"px Arial","red");
     //center text
     text.x = w/2-text.getBounds().width/2;
     text.y = h/2-text.getBounds().height/2;
