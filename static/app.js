@@ -118,7 +118,7 @@ function generateFooter(x,y,w,h) {
 }
 
 function generateMouse(x,y,w,h) {
-  var th = h/5*2;
+  var th = h/5*3;
   var mouseX = w/3;
   var tpad = newRect(x,y,mouseX,th,"#770000","#000000","Touchpad");
   var lbtn = newRect(x,th,mouseX/2,h-th,"#770000","#111111","Select");
@@ -161,7 +161,7 @@ function generateMouse(x,y,w,h) {
   st.addChild(mbtn);
   st.addChild(rbtn);
 
-  generateKeyboard(mouseX, 0, w-mouseX, h);
+  // generateKeyboard(mouseX, y, w-mouseX, h);
 }
 
 function newKey(keycode,x,y,w,h) {
