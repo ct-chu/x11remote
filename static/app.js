@@ -151,17 +151,17 @@ function generateMouse(x,y,w,h) {
 
   lbtn.touchstart = function(){xdo("mousedown 1")}
   lbtn.touchend = function(){xdo("mouseup 1")}
-  mbtn.touchstart = function(){xdo("mousedown 2")}
-  mbtn.touchend = function(){xdo("mouseup 2")}
+  // mbtn.touchstart = function(){xdo("mousedown 2")}
+  // mbtn.touchend = function(){xdo("mouseup 2")}
   rbtn.touchstart = function(){xdo("mousedown 3")}
   rbtn.touchend = function(){xdo("mouseup 3")}
 
   st.addChild(tpad);
   st.addChild(lbtn);
-  st.addChild(mbtn);
+  // st.addChild(mbtn);
   st.addChild(rbtn);
 
-  // generateKeyboard(mouseX, y, w-mouseX, h);
+  generateKeyboard(mouseX, y, w-mouseX, h);
 }
 
 function newKey(keycode,x,y,w,h) {
