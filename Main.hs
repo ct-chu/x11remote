@@ -116,7 +116,7 @@ serveStatic str
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
 img :: IO ()
-img = Network.WebSockets.runServer "127.0.0.1" 8080 $ \pending -> do
+img = Network.WebSockets.runServer "10.0.0.1" 9234 $ \pending -> do
     conn <- Network.WebSockets.acceptRequest pending
     img  <- BS.readFile "btTimeRewind.png"
     Network.WebSockets.sendBinaryData conn img
