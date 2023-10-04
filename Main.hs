@@ -27,6 +27,8 @@ import Network.Wai.Handler.WebSockets (websocketsOr)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import Network.Wai.Middleware.Static (addBase, noDots, staticPolicy, (>->))
 
+import Data.ByteString.Lazy
+
 data Args = Args { argPort :: Int, argVerbose :: Bool
                  , argWebsockets :: Bool, argDebug :: Bool }
 
