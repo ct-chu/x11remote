@@ -112,6 +112,7 @@ embeddedStatic = $(embedDir "/home/ast/Documents/x11remote/static")
 serveStatic str
  | "html" `isSuffixOf` str = html txt
  | "json" `isSuffixOf` str = text txt
+ | "js" `isSuffixOf` str = text txt
 --  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
