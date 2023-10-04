@@ -197,7 +197,7 @@ function newKey(keycode,x,y,w,h) {
     if (isdef(labels[keysym]))
       label = labels[keysym];
 
-    var img = new createjs.Bitmap("http://127.0.0.1/btTimeRewind.png");
+    var img = new createjs.Bitmap("http://127.0.0.1/remoteIcons/btTimeRewind.png");
     console.log(label);
     if ( w <= h ) {
       img.x = x
