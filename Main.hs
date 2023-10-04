@@ -44,7 +44,7 @@ main = do
   missingToolExit "xmodmap"
   conn <- Network.WebSockets.acceptRequest pending
   img  <- BS.readFile "btTimeRewind.png"
-  WS.sendBinaryData conn img
+  Network.WebSockets.sendBinaryData conn img
   if argWebsockets args then do
     httpApp <- scottyApp $ myScottyApp args
     run (argPort args) $ websocketsOr
