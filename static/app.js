@@ -97,8 +97,9 @@ function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
     text: buttonText,
     textAlign: "center",
     textBaseline: "middle",
-    x: w / 2,
-    y: h / 2
+    color: "#FF0000",
+    x: x + w / 2,
+    y: y + h / 2
   })
   button.addChild(r, text);
   return button;
@@ -118,7 +119,7 @@ function generateFooter(x,y,w,h) {
 }
 
 function generateMouse(x,y,w,h) {
-  var th = h/5*3;
+  var th = h/10*7;
   var mouseX = w/3;
   var tpad = newRect(x,y,mouseX,th,"#770000","#000000","Touchpad");
   var lbtn = newRect(x,th,mouseX/2,h-th,"#770000","#111111","Select");
@@ -195,14 +196,20 @@ function newKey(keycode,x,y,w,h) {
     if (isdef(labels[keysym]))
       label = labels[keysym];
 
-    var fonth = Math.min(Math.abs(h/6*3), w);
-    var text = new createjs.Text(label,fonth+"px Arial","red");
-    //center text
-    text.x = w/2-text.getBounds().width/2;
-    text.y = h/2-text.getBounds().height/2;
+    var img = new createjs.Bitmap(label);
+    if ( w <= h ) {
+      img.x = x
+      img.y = y + (h - w) /2
+      img.w = w
+      img.h = w
+    } else {
+      img.x = x + (w - h) /2
+      img.y = y
+      img.w = h
+      img.h = h
+    }
 
-    container.txt = text;
-    container.addChildAt(text,1);
+    container.addChildAt(img,1);
   }
 
   container.showLevel(0);
@@ -212,14 +219,14 @@ function newKey(keycode,x,y,w,h) {
 function generateKeyboard(x,y,w,h) {
   var ynum = layout.length;
   var xnum = layout[0].length;
-  var kw=w/xnum;
-  var kh=h/ynum;
+  var kw = w/xnum ;
+  var kh = h/ynum;
   currkeys = [];
   for (var j=0; j<ynum; j++) {
     currkeys.push([]);
     for (var i=0; i<xnum; i++) {
       var keycode = layout[j][i];
-      key = newKey(keycode,i*kw,j*kh,kw,kh);
+      key = newKey(keycode,i*kw+x,j*kh+y,kw,kh);
       st.addChild(key);
       currkeys[(currkeys.length-1)].push(key); //store objects to change text later
     }
@@ -284,7 +291,8 @@ function updateObjects() {
   st.removeAllChildren();
   currkeys = null;
 
-  var uh = c.height/3*2+c.height/4;
+  var uh = c.height;
+  //var uh = c.height/3*2+c.height/4;
   var bh = c.height-uh;
 
   if (mode==0) {
@@ -292,7 +300,7 @@ function updateObjects() {
   } else {
     generateKeyboard(0,0,c.width,uh);
   }
-  generateFooter(0,uh,c.width,bh);
+  // generateFooter(0,uh,c.width,bh);
 
   st.update();
 }
