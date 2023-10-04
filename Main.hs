@@ -111,7 +111,7 @@ embeddedStatic :: [(FilePath, BS.ByteString)]
 embeddedStatic = $(embedDir "/home/ast/Documents/x11remote/static")
 serveStatic str
  | "html" `isSuffixOf` str = html txt
- | "png" `isSuffixOf` str = png img
- | otherwise = text txt
+ | "json" `isSuffixOf` str = text txt
+--  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
