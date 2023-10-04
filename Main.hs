@@ -28,7 +28,6 @@ import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import Network.Wai.Middleware.Static (addBase, noDots, staticPolicy, (>->))
 
 import Codec.Picture
-import Codec.Picture.Png.Streaming (decodePNG)
 
 data Args = Args { argPort :: Int, argVerbose :: Bool
                  , argWebsockets :: Bool, argDebug :: Bool }
@@ -117,7 +116,7 @@ embeddedStatic :: [(FilePath, BS.ByteString)]
 embeddedStatic = $(embedDir "/home/ast/Documents/x11remote/static")
 serveStatic str
  | "html" `isSuffixOf` str = html txt
- | "png" `isSuffixOf` str = image fromStrict $ decodePNG $ fromMaybe BS.empty $ lookup str embeddedStatic
+ | "png" `isSuffixOf` str = image fromStrict $ Codec.Picture.Png.Streaming.decodePNG $ fromMaybe BS.empty $ lookup str embeddedStatic
  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
