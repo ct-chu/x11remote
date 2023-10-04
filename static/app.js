@@ -173,6 +173,9 @@ function newKey(keycode,x,y,w,h) {
   container.y = y;
 
   var rect = newRect(0,0,w,h,"#770000","#000000","");
+  var img = new createjs.Bitmap("http://127.0.0.1/remoteIcons/btTimeRewind.png");
+  rect.beginBitmapFill(img, no-repeat)
+
   container.addChild(rect);
 
   //keysym which will be sent
@@ -184,7 +187,7 @@ function newKey(keycode,x,y,w,h) {
   container.touchend=function(){keyUp(ksym);}
 
   container.showLevel = function(idx) {
-    container.removeChild(container.txt);
+    // container.removeChild(container.img);
 
     //keysym which will really be shown depending on modifiers
     var keysym = 'question';
@@ -197,22 +200,22 @@ function newKey(keycode,x,y,w,h) {
     if (isdef(labels[keysym]))
       label = labels[keysym];
 
-    var img = new createjs.Bitmap("http://127.0.0.1/remoteIcons/btTimeRewind.png");
-    console.log(label);
-    if ( w <= h ) {
-      img.x = x
-      img.y = y + (h - w) /2
-      img.w = w
-      img.h = w
-    } else {
-      img.x = x + (w - h) /2
-      img.y = y
-      img.w = h
-      img.h = h
-    }
-    img.setBounds(img.x,img.y,img.w,img.h);
+   
+    // console.log(label);
+    // if ( w <= h ) {
+    //   img.x = x
+    //   img.y = y + (h - w) /2
+    //   img.w = w
+    //   img.h = w
+    // } else {
+    //   img.x = x + (w - h) /2
+    //   img.y = y
+    //   img.w = h
+    //   img.h = h
+    // }
+    // img.setBounds(img.x,img.y,img.w,img.h);
 
-    container.addChildAt(img,1);
+    // container.addChildAt(img,1);
   }
 
   container.showLevel(0);
