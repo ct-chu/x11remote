@@ -98,6 +98,7 @@ function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
     textAlign: "center",
     textBaseline: "middle",
     color: "#FF0000",
+    font: "24px",
     x: x + w / 2,
     y: y + h / 2
   })

@@ -7,7 +7,7 @@ pkgdesc='Simple mouse and keyboard remote control as touchscreen HTML5 web-app'
 url="http://github.com/ct-chu/${pkgname}"
 license=('MIT')
 arch=('i686' 'x86_64')
-depends=('xdotool' 'xorg-xmodmap')
+depends=('xdotool' 'xorg-xmodmap' 'juicyPixels')
 
 makedepends=('git' 'ghc' 'cabal-install')
 source=("git+https://github.com/ct-chu/${pkgname}.git")
