@@ -42,6 +42,7 @@ main = do
   args <- execParser $ info (helper <*> parseArgs) fullDesc
   missingToolExit "xdotool"
   missingToolExit "xmodmap"
+  img
   if argWebsockets args then do
     httpApp <- scottyApp $ myScottyApp args
     run (argPort args) $ websocketsOr
@@ -114,8 +115,8 @@ serveStatic str
  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
-main :: IO ()
-main = Network.WebSockets.runServer "127.0.0.1" 8080 $ \pending -> do
-    conn <- WS.acceptRequest pending
+img :: IO ()
+img = Network.WebSockets.runServer "127.0.0.1" 8080 $ \pending -> do
+    conn <- Network.WebSockets.acceptRequest pending
     img  <- Data.ByteString.Lazy.readFile "btTimeRewind.png"
     Network.WebSockets.sendBinaryData conn img
