@@ -92,7 +92,7 @@ function newRect(x,y,w,h,borderclr,fillclr,buttonText,bg) {
   r.x = x;
   r.y = y;
   if ((bg != "") || (bg != null)) {
-    r.graphics.beginStroke(borderclr).beginBitmapFill(img, "no-repeat")
+    r.graphics.beginStroke(borderclr).beginBitmapFill(bg, "no-repeat")
       .drawRect(0,0,w,h);
   } else {
     r.graphics.beginStroke(borderclr).beginFill(fillclr)
