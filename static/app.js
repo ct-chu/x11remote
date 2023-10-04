@@ -174,7 +174,7 @@ function newKey(keycode,x,y,w,h) {
 
   var rect = newRect(0,0,w,h,"#770000","#000000","");
   var img = new createjs.Bitmap("http://127.0.0.1/remoteIcons/btTimeRewind.png");
-  rect.beginBitmapFill(img, no-repeat)
+  rect.beginBitmapFill(img, "no-repeat")
 
   container.addChild(rect);
 
