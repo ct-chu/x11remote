@@ -84,15 +84,20 @@ function isdef(x){ return (typeof x != 'undefined') }
 
 function xdo(url) { reqqueue.push(url); }
 
-function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
+function newRect(x,y,w,h,borderclr,fillclr,buttonText,bg) {
   var button = new createjs.Container();
   var r = new createjs.Shape();
   var text = new createjs.Text();
   r.setBounds(x,y,w,h);
   r.x = x;
   r.y = y;
-  r.graphics.beginStroke(borderclr).beginFill(fillclr)
+  if ((bg != "") || (bg != null)) {
+    r.graphics.beginStroke(borderclr).beginBitmapFill(img, "no-repeat")
+      .drawRect(0,0,w,h);
+  } else {
+    r.graphics.beginStroke(borderclr).beginFill(fillclr)
     .drawRect(0,0,w,h);
+  }
   text.set({
     text: buttonText,
     textAlign: "center",
@@ -172,9 +177,8 @@ function newKey(keycode,x,y,w,h) {
   container.x = x;
   container.y = y;
 
-  var rect = newRect(0,0,w,h,"#770000","#000000","");
   var img = new createjs.Bitmap("http://127.0.0.1/remoteIcons/btTimeRewind.png");
-  rect.beginBitmapFill(img, "no-repeat")
+  var rect = newRect(0,0,w,h,"#770000","#000000","",img);
 
   container.addChild(rect);
 
