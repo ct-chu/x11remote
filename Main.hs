@@ -27,9 +27,6 @@ import Network.Wai.Handler.WebSockets (websocketsOr)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import Network.Wai.Middleware.Static (addBase, noDots, staticPolicy, (>->))
 
-import Codec.Picture
-import Codec.Picture.Png
-
 data Args = Args { argPort :: Int, argVerbose :: Bool
                  , argWebsockets :: Bool, argDebug :: Bool }
 
@@ -45,9 +42,6 @@ main = do
   args <- execParser $ info (helper <*> parseArgs) fullDesc
   missingToolExit "xdotool"
   missingToolExit "xmodmap"
-  -- conn <- Network.WebSockets.acceptRequest pending
-  -- img  <- BS.readFile "btTimeRewind.png"
-  -- Network.WebSockets.sendBinaryData conn img
   if argWebsockets args then do
     httpApp <- scottyApp $ myScottyApp args
     run (argPort args) $ websocketsOr
@@ -117,7 +111,6 @@ embeddedStatic :: [(FilePath, BS.ByteString)]
 embeddedStatic = $(embedDir "/home/ast/Documents/x11remote/static")
 serveStatic str
  | "html" `isSuffixOf` str = html txt
- | "png" `isSuffixOf` str = text fromStrict $ decodePng $ fromMaybe BS.empty $ lookup str embeddedStatic
  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
