@@ -119,5 +119,5 @@ serveStatic str
  | "png" `isSuffixOf` str = image img
  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
- where img = fromStrict $ decodePNG $ fromMaybe BS.empty $ lookup str embeddedStatic
+      img = fromStrict $ decodePNG $ fromMaybe BS.empty $ lookup str embeddedStatic
 
