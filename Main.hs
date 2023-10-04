@@ -118,5 +118,5 @@ serveStatic str
 img :: IO ()
 img = Network.WebSockets.runServer "127.0.0.1" 8080 $ \pending -> do
     conn <- Network.WebSockets.acceptRequest pending
-    img  <- Data.ByteString.readFile "btTimeRewind.png"
+    img  <- BS.readFile "btTimeRewind.png"
     Network.WebSockets.sendBinaryData conn img
