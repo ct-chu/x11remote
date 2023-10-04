@@ -197,7 +197,7 @@ function newKey(keycode,x,y,w,h) {
       label = labels[keysym];
 
     var img = new createjs.Bitmap(label);
-    print(label)
+    print(label);
     if ( w <= h ) {
       img.x = x
       img.y = y + (h - w) /2

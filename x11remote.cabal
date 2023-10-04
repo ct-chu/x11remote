@@ -3,12 +3,12 @@
 
 name:                x11remote
 version:             0.1.0.0
-synopsis:            Remote control for mouse and keyboard using xdotool
+synopsis:            Remote control for stellarium using xdotool
 -- description:
 license:             MIT
 license-file:        LICENSE
-author:              Anton Pirogov
-maintainer:          anton.pirogov at gmail.com
+author:              Anton Pirogov, modded by CT Chu (HKNEAC)
+maintainer:          ctchu at hokoon.edu.hk
 -- copyright:
 category:            Web
 build-type:          Simple
