@@ -42,9 +42,9 @@ main = do
   args <- execParser $ info (helper <*> parseArgs) fullDesc
   missingToolExit "xdotool"
   missingToolExit "xmodmap"
-  conn <- Network.WebSockets.acceptRequest pending
-  img  <- BS.readFile "btTimeRewind.png"
-  Network.WebSockets.sendBinaryData conn img
+  -- conn <- Network.WebSockets.acceptRequest pending
+  -- img  <- BS.readFile "btTimeRewind.png"
+  -- Network.WebSockets.sendBinaryData conn img
   if argWebsockets args then do
     httpApp <- scottyApp $ myScottyApp args
     run (argPort args) $ websocketsOr
@@ -114,8 +114,8 @@ embeddedStatic :: [(FilePath, BS.ByteString)]
 embeddedStatic = $(embedDir "/home/ast/Documents/x11remote/static")
 serveStatic str
  | "html" `isSuffixOf` str = html txt
- | "json" `isSuffixOf` str = text txt
- | "js" `isSuffixOf` str = text txt
---  | otherwise = text txt
+--  | "json" `isSuffixOf` str = text txt
+--  | "js" `isSuffixOf` str = text txt
+ | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
