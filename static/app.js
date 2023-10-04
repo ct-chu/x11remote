@@ -210,6 +210,7 @@ function newKey(keycode,x,y,w,h) {
       img.w = h
       img.h = h
     }
+    img.setBounds(img.x,img.y,img.w,img.h);
 
     container.addChildAt(img,1);
   }
