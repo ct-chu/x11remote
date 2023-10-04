@@ -114,9 +114,3 @@ serveStatic str
  | "html" `isSuffixOf` str = html txt
  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
-
-img :: IO ()
-img = Network.WebSockets.runServer "10.0.0.1" 9234 $ \pending -> do
-    conn <- Network.WebSockets.acceptRequest pending
-    img  <- BS.readFile "btTimeRewind.png"
-    Network.WebSockets.sendBinaryData conn img
