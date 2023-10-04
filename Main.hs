@@ -42,7 +42,6 @@ main = do
   args <- execParser $ info (helper <*> parseArgs) fullDesc
   missingToolExit "xdotool"
   missingToolExit "xmodmap"
-  img
   if argWebsockets args then do
     httpApp <- scottyApp $ myScottyApp args
     run (argPort args) $ websocketsOr
