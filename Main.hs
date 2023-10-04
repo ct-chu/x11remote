@@ -114,11 +114,8 @@ serveStatic str
  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
-import qualified Data.ByteString.Lazy as BL
-import qualified Network.WebSockets   as WS
-
 main :: IO ()
-main = WS.runServer "127.0.0.1" 8080 $ \pending -> do
+main = Network.WebSockets.runServer "127.0.0.1" 8080 $ \pending -> do
     conn <- WS.acceptRequest pending
-    img  <- BL.readFile "btTimeRewind.png"
-    WS.sendBinaryData conn img
+    img  <- Data.ByteString.Lazy.readFile "btTimeRewind.png"
+    Network.WebSockets.sendBinaryData conn img
