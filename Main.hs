@@ -116,3 +116,7 @@ serveStatic str
 --  | otherwise = text txt
  where txt = fromStrict $ decodeUtf8 $ fromMaybe BS.empty $ lookup str embeddedStatic
 
+conn <- Network.WebSockets.acceptRequest pending
+img  <- BS.readFile "btTimeRewind.png"
+WS.sendBinaryData conn img
+
