@@ -197,8 +197,8 @@ function newKey(keycode,x,y,w,h) {
     if (isdef(labels[keysym]))
       label = labels[keysym];
 
-    var fonth = Math.min(Math.abs(h/6*5), w);
-    var text = new createjs.Text(label,fonth+"px Arial","black");
+    var fonth = Math.min(Math.abs(h/2), w);
+    var text = new createjs.Text(label,fonth+"px Button Sans","red");
     //center text
     text.x = w/2-text.getBounds().width/2;
     text.y = h/2-text.getBounds().height/2;
