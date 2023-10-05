@@ -84,21 +84,15 @@ function isdef(x){ return (typeof x != 'undefined') }
 
 function xdo(url) { reqqueue.push(url); }
 
-function newRect(x,y,w,h,borderclr,fillclr,buttonText,bg) {
+function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
   var button = new createjs.Container();
   var r = new createjs.Shape();
   var text = new createjs.Text();
   r.setBounds(x,y,w,h);
   r.x = x;
   r.y = y;
-  if ((bg != "") || (bg != null)) {
-    var img = new createjs.Bitmap(bg);
-    r.graphics.beginStroke(borderclr).beginBitmapFill(img, "no-repeat")
-      .drawRect(0,0,w,h);
-  } else {
-    r.graphics.beginStroke(borderclr).beginFill(fillclr)
+  r.graphics.beginStroke(borderclr).beginFill(fillclr)
     .drawRect(0,0,w,h);
-  }
   text.set({
     text: buttonText,
     textAlign: "center",
@@ -178,9 +172,7 @@ function newKey(keycode,x,y,w,h) {
   container.x = x;
   container.y = y;
 
-  var imgsrc = "http://127.0.0.1/remoteIcons/btTimeRewind.png";
-  var rect = newRect(0,0,w,h,"#770000","#000000","",imgsrc);
-
+  var rect = newRect(0,0,w,h,"#770000","#000000","");
   container.addChild(rect);
 
   //keysym which will be sent
@@ -192,7 +184,7 @@ function newKey(keycode,x,y,w,h) {
   container.touchend=function(){keyUp(ksym);}
 
   container.showLevel = function(idx) {
-    // container.removeChild(container.img);
+    container.removeChild(container.txt);
 
     //keysym which will really be shown depending on modifiers
     var keysym = 'question';
@@ -205,22 +197,14 @@ function newKey(keycode,x,y,w,h) {
     if (isdef(labels[keysym]))
       label = labels[keysym];
 
-   
-    // console.log(label);
-    // if ( w <= h ) {
-    //   img.x = x
-    //   img.y = y + (h - w) /2
-    //   img.w = w
-    //   img.h = w
-    // } else {
-    //   img.x = x + (w - h) /2
-    //   img.y = y
-    //   img.w = h
-    //   img.h = h
-    // }
-    // img.setBounds(img.x,img.y,img.w,img.h);
+    var fonth = Math.min(Math.abs(h/6*5), w);
+    var text = new createjs.Text(label,fonth+"px Arial","black");
+    //center text
+    text.x = w/2-text.getBounds().width/2;
+    text.y = h/2-text.getBounds().height/2;
 
-    // container.addChildAt(img,1);
+    container.txt = text;
+    container.addChildAt(text,1);
   }
 
   container.showLevel(0);
