@@ -18,11 +18,14 @@
         display:block;
       }
       @font-face {
-        font-family: "Button Sans";
-        src: url('http://127.0.0.1/buttonFont.ttf') format('truetype');
+        font-family: "ButtonSans";
+        src: url('http://127.0.0.1/buttonFont.ttf') format('truetype'),
+        url('http://127.0.0.1/buttonFont.woff2') format('woff2'),
+        url('http://127.0.0.1/buttonFont.woff') format('woff'),
+        url('http://127.0.0.1/buttonFont.svg#svgFontName') format('svg');
       }
       body {
-        font-family: "Button Sans", sans-serif;
+        font-family: "ButtonSans" !important;
       }
     </style>
     <script type="text/javascript" src="./easeljs-0.8.0.min.js"></script>
