@@ -120,7 +120,7 @@ function generateFooter(x,y,w,h) {
 }
 
 function generateMouse(x,y,w,h) {
-  var th = h/10*7;
+  var th = h/5*4;
   var mouseX = w/3;
   var tpad = newRect(x,y,mouseX,th,"#770000","#000000","Touchpad");
   var lbtn = newRect(x,th,mouseX/2,h-th,"#770000","#111111","Select");
@@ -198,7 +198,7 @@ function newKey(keycode,x,y,w,h) {
       label = labels[keysym];
 
     var fonth = Math.min(Math.abs(h/2), w);
-    var text = new createjs.Text(label,fonth+"px Button Sans","red");
+    var text = new createjs.Text(label,fonth+"px ButtonSans","red");
     //center text
     text.x = w/2-text.getBounds().width/2;
     text.y = h/2-text.getBounds().height/2;
