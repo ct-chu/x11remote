@@ -281,6 +281,14 @@ function updateKeyLabels() {
   st.update();
 }
 
+//Add splash screen
+function splashScreen(x,y,w,h) {
+  var bg = newRect(x,y,w,h,"#000000","#000000","Remote for HK-Stellarium, starting up...");
+  st.addChild(bg);
+  st.update();
+  sleep(1000);
+}
+
 //update sizes of objects relative to canvas size
 function updateObjects() {
   st.removeAllChildren();
@@ -316,7 +324,7 @@ function fullscreen() {
 
 // Runs each time the DOM window resize event fires.
 // Resets the canvas dimensions to match window, updates contents.
-function resizeCanvas() {
+function resizeCanvas(startup) {
   //low level
   c.width = window.innerWidth;
   c.height = window.innerHeight;
@@ -324,7 +332,12 @@ function resizeCanvas() {
   st.canvas.width = c.width;
   st.canvas.height = c.height;
   //update objects and redraw
-  updateObjects();
+  if (startup != true) {
+    updateObjects();
+  } else {
+    splashScreen();
+    updateObjects();
+  }
 }
 
 function initialize() {
@@ -340,7 +353,8 @@ function initialize() {
   window.addEventListener('touchmove',function(evt){handleTouch('touchmove',evt)},false);
   window.addEventListener('touchend',function(evt){handleTouch('touchend',evt)},false);
 
-  resizeCanvas(); //adjust canvas size to window size the first time
+  let startup = true;
+  resizeCanvas(startup); //adjust canvas size to window size the first time
 }
 
 function getShapeOwningTouch(touch) {
