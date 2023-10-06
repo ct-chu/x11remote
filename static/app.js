@@ -1,3 +1,6 @@
+let infoText = "Not connected to stellarium!";
+var fetchInterval = 500;
+
 // synchronized GET, returns as JSON
 function getjson(url){
   var x = new XMLHttpRequest();
@@ -64,7 +67,7 @@ var layout = getjson('layout.json');
 var c = document.getElementById('mycanvas');
 var st = new createjs.Stage('mycanvas');
 
-var mode = 0; //current mode (0=mouse, 1=keyboard)
+var mode = 0; //current mode (0 = default (keyboard 0), 1 = keyboard 1)
 
 var currkeys = null; //references to current key objects of keyboard
 //state of modifiers affecting key labels
@@ -98,7 +101,7 @@ function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
     textAlign: "center",
     textBaseline: "middle",
     color: "#FF0000",
-    font: "24px",
+    font: "44px",
     x: x + w / 2,
     y: y + h / 2
   })
@@ -106,15 +109,58 @@ function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
   return button;
 }
 
+function fetchStatus() {
+  let skytime, timespeed, selection, fov = "";
+
+  fetch('http://10.0.0.1:8090/api/main/status')
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      skytime = data.time.local.substr(0,10) + " " + data.time.local.substr(11,19);
+      timespeed = " (" + Math.round(parseFloat(data.time.timerate)/0.0000115740).toString() + "x)";
+      selection = data.selectioninfo;
+      if (selection != "") {
+        selection = selection.substr(5, selection.length);
+        selection = " Selected:" + selection.substring(0, selection.indexOf('<'));
+      } else {
+        selection = " No selection";
+      }
+      fov = " FOV: " + data.view.fov;
+      infoText = skytime + timespeed + selection + fov;
+    })
+    .catch(function (err) {
+      infoText = "Not connected to stellarium!";
+      console.log('error: ' + err);
+    });
+}
+
 function generateFooter(x,y,w,h) {
   var fscrw = c.height-y;
 
-  var fscr = newRect(x,y,fscrw,h,"black","yellow","Full screen");
-  var togk = newRect(x+fscrw,y,w-fscrw,h,"black","green","Toggle");
+  var fscr = newRect(x,y,w-fscrw,h,"#770000","#000000");
+  var togk = newRect(x+fscrw,y,fscrw,h,"#770000","#000000","Toggle");
 
-  fscr.touchstart = fullscreen;
   togk.touchstart = toggleMode;
 
+  var container = new createjs.Container();
+  container.setBounds(x,y,w-fscrw,h);
+  var fonth = Math.min(Math.abs(h/5), w);
+  //center text
+  text.x = w/2-text.getBounds().width/2;
+  text.y = h/2-text.getBounds().height/2;
+
+  var text = new createjs.Text(infoText,fonth+"px ButtonSans","red");
+
+  function drawFooter() {
+    removeChild(container.txt);
+    container.txt = text;
+    container.addChildAt(text,1);
+  };
+
+  setInterval(drawFooter, fetchInterval);
+  
   st.addChild(fscr);
   st.addChild(togk);
 }
@@ -294,8 +340,8 @@ function updateObjects() {
   st.removeAllChildren();
   currkeys = null;
 
-  var uh = c.height;
-  //var uh = c.height/3*2+c.height/4;
+  // var uh = c.height;
+  var uh = c.height/3*2+c.height/4;
   var bh = c.height-uh;
 
   if (mode==0) {
@@ -303,7 +349,7 @@ function updateObjects() {
   } else {
     generateKeyboard(0,0,c.width,uh);
   }
-  // generateFooter(0,uh,c.width,bh);
+  generateFooter(0,uh,c.width,bh);
 
   st.update();
 }
@@ -352,6 +398,11 @@ function initialize() {
   window.addEventListener('touchstart',function(evt){handleTouch('touchstart',evt)},false);
   window.addEventListener('touchmove',function(evt){handleTouch('touchmove',evt)},false);
   window.addEventListener('touchend',function(evt){handleTouch('touchend',evt)},false);
+
+  //get info from stellarium every 0.5s
+  window.addEventListener('load', function () {
+    setInterval(fetchStatus, fetchInterval);
+  });
 
   let startup = true;
   resizeCanvas(startup); //adjust canvas size to window size the first time
