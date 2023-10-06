@@ -1,4 +1,18 @@
-# x11remote
+# Remote for stellarium
+Based on x11remote  
+  
+## Installation
+- get apache2 ready and put all fonts (buttonFont.tff, buttonFont.svg, buttonFont.woff, buttonFont.woff2, buttonFont.ocf) into `/var/www/html/`
+- compile with cabal
+- setup wifi access point, set address to 10.0.0.1, netmask to 24, and gateway to 10.0.0.4 in IPv4 setting
+  
+## Usage
+- start wifi ap on host device
+- start the remote service by `x11remote -p 9234 -w`, change the port number if necessary
+- connect your remote device to the wifi ap and go to `10.0.0.1:9234`
+  
+Text below is from the original README file  
+---   
 Mouse and keyboard remote control for X11 systems implemented as a HTML5 web app for touchscreen devices.
 
 **What you get:** A touchpad-style mouse with three buttons and a keyboard with the most frequently used
