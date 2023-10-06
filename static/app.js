@@ -1,5 +1,5 @@
-let infoText = "Not connected to stellarium!";
-var fetchInterval = 500;
+//let infoText = "Not connected to stellarium!";
+//var fetchInterval = 500;
 
 // synchronized GET, returns as JSON
 function getjson(url){
@@ -96,12 +96,13 @@ function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
   r.y = y;
   r.graphics.beginStroke(borderclr).beginFill(fillclr)
     .drawRect(0,0,w,h);
+  var fonth = Math.min(Math.abs(h/2), w);
   text.set({
     text: buttonText,
     textAlign: "center",
     textBaseline: "middle",
     color: "#FF0000",
-    font: "44px",
+    font: fonth+"px",
     x: x + w / 2,
     y: y + h / 2
   })
@@ -109,16 +110,15 @@ function newRect(x,y,w,h,borderclr,fillclr,buttonText) {
   return button;
 }
 
-function fetchStatus() {
+/* function fetchStatus() {
   let skytime, timespeed, selection, fov = "";
 
   fetch('http://10.0.0.1:8090/api/main/status')
     .then(response => {
-      return response.json();
+	return response.json();
     })
     .then(data => {
-      console.log(data);
-      skytime = data.time.local.substr(0,10) + " " + data.time.local.substr(11,19);
+      skytime = data.time.local.substring(0,10) + " " + data.time.local.substring(11,19);
       timespeed = " (" + Math.round(parseFloat(data.time.timerate)/0.0000115740).toString() + "x)";
       selection = data.selectioninfo;
       if (selection != "") {
@@ -128,41 +128,40 @@ function fetchStatus() {
         selection = " No selection";
       }
       fov = " FOV: " + data.view.fov;
-      infoText = skytime + timespeed + selection + fov;
+      infoText = skytime + timespeed + fov + selection;
+      console.log(infoText);
     })
     .catch(function (err) {
       infoText = "Not connected to stellarium!";
       console.log('error: ' + err);
     });
+} */
+
+function reloadPage() {
+	resizeCanvas();
 }
 
 function generateFooter(x,y,w,h) {
-  var fscrw = c.height-y;
+  var fscrw = (c.height-y)*2;
 
-  var fscr = newRect(x,y,w-fscrw,h,"#770000","#000000");
-  var togk = newRect(x+fscrw,y,fscrw,h,"#770000","#000000","Toggle");
+  var fscr = newRect(x+fscrw,y,w-(fscrw*2),h,"#770000","#000000","");
+  var togk = newRect(x,y,fscrw,h,"#770000","#000000","Toggle");
+  var reload = newRect(w-fscrw,y,fscrw,h,"#770000","#000000","Reload");
 
   togk.touchstart = toggleMode;
+  reload.touchstart = reloadPage;
 
-  var container = new createjs.Container();
-  container.setBounds(x,y,w-fscrw,h);
-  var fonth = Math.min(Math.abs(h/5), w);
-  //center text
-  text.x = w/2-text.getBounds().width/2;
-  text.y = h/2-text.getBounds().height/2;
+  //function drawFooter() {
+ //   removeChild(container.txt);
+  //  container.txt = text;
+  //  container.addChildAt(text,1);
+ // };
 
-  var text = new createjs.Text(infoText,fonth+"px ButtonSans","red");
-
-  function drawFooter() {
-    removeChild(container.txt);
-    container.txt = text;
-    container.addChildAt(text,1);
-  };
-
-  setInterval(drawFooter, fetchInterval);
+  //setInterval(drawFooter, fetchInterval);
   
   st.addChild(fscr);
   st.addChild(togk);
+  st.addChild(reload);
 }
 
 function generateMouse(x,y,w,h) {
@@ -327,14 +326,6 @@ function updateKeyLabels() {
   st.update();
 }
 
-//Add splash screen
-function splashScreen(x,y,w,h) {
-  var bg = newRect(x,y,w,h,"#000000","#000000","Remote for HK-Stellarium, starting up...");
-  st.addChild(bg);
-  st.update();
-  sleep(1000);
-}
-
 //update sizes of objects relative to canvas size
 function updateObjects() {
   st.removeAllChildren();
@@ -346,8 +337,9 @@ function updateObjects() {
 
   if (mode==0) {
     generateMouse(0,0,c.width,uh);
-  } else {
-    generateKeyboard(0,0,c.width,uh);
+ } else {
+   generateMouse(0,0,c.width,uh);
+  //  generateKeyboard(0,0,c.width,uh);
   }
   generateFooter(0,uh,c.width,bh);
 
@@ -370,7 +362,7 @@ function fullscreen() {
 
 // Runs each time the DOM window resize event fires.
 // Resets the canvas dimensions to match window, updates contents.
-function resizeCanvas(startup) {
+function resizeCanvas() {
   //low level
   c.width = window.innerWidth;
   c.height = window.innerHeight;
@@ -378,12 +370,7 @@ function resizeCanvas(startup) {
   st.canvas.width = c.width;
   st.canvas.height = c.height;
   //update objects and redraw
-  if (startup != true) {
-    updateObjects();
-  } else {
-    splashScreen();
-    updateObjects();
-  }
+   updateObjects();
 }
 
 function initialize() {
@@ -400,12 +387,12 @@ function initialize() {
   window.addEventListener('touchend',function(evt){handleTouch('touchend',evt)},false);
 
   //get info from stellarium every 0.5s
-  window.addEventListener('load', function () {
-    setInterval(fetchStatus, fetchInterval);
-  });
+  //window.addEventListener('load', function () {
+    //setInterval(fetchStatus, fetchInterval);
+ // });
+  //fetchStatus();
 
-  let startup = true;
-  resizeCanvas(startup); //adjust canvas size to window size the first time
+  resizeCanvas(); //adjust canvas size to window size the first time
 }
 
 function getShapeOwningTouch(touch) {
@@ -439,6 +426,7 @@ function getShapeBoundingTouch(touch) {
 //own touch event dispatcher
 function handleTouch(name, evt) {
   evt.preventDefault();
+  //fetchStatus();
   var ts = evt.changedTouches;
 
   for (var i=0; i<ts.length; i++) {
